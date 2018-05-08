@@ -1,21 +1,42 @@
 package com.design.singleton;
 
-public class SingleObject {
-	
-	//create an object of SingleObject 
-	private static SingleObject instance = new SingleObject();
-	//make the constructor private so that this class cannot be 
-	//instantiated 
-	private SingleObject(){} 
-	//Get the only object available 
-	public static synchronized SingleObject getInstance(){ 
-		if(instance == null){
-			instance = new SingleObject();
+import java.io.Serializable;
+
+public class SingleObject implements Cloneable, Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// create an object of SingleObject
+	private static SingleObject instance;
+
+	// make the constructor private so that this class cannot be
+	// instantiated
+	private SingleObject() {
+	}
+
+	// Get the only object available
+	public static SingleObject getInstance() {
+		if (instance == null) {
+			synchronized (SingleObject.class) {
+				if (instance == null) {
+					instance = new SingleObject();
+				}
+			}
 		}
 		return instance;
-		}
-	public void showMessage() throws InterruptedException{ 
-		System.out.println("Hello World!"); 
-		Thread.sleep(1000);
-		}
 	}
+	@Override
+	public SingleObject clone() throws CloneNotSupportedException{
+		return SingleObject.getInstance();
+		
+	}
+	public SingleObject readResolve() {
+		return SingleObject.getInstance();
+	}
+	public void showMessage() throws InterruptedException {
+		System.out.println("Hello World!");
+		Thread.sleep(1000);
+	}
+}
