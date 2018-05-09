@@ -17,6 +17,9 @@ public class ABuilder {
 		  for(Entry<Integer, String> m:hm.entrySet()){  
 		   System.out.println(m.getKey()+" "+m.getValue());  
 		  }  
+		  
+		  StringBuffer sb = new StringBuffer();
+		  
 	}
 
 }
